@@ -1,34 +1,95 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dashboard</title>
+    <title>MedTriage Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
-<h1>📊 Patient Dashboard</h1>
+<div class="container">
 
-<canvas id="chart"></canvas>
+    <h1>🩺 MedTriage Dashboard</h1>
+
+    <!-- FORM -->
+    <div class="card">
+        <h2>Patient Input</h2>
+        <form id="form">
+            <input type="number" id="age" placeholder="Age" required>
+            <input type="text" id="symptoms" placeholder="Symptoms" required>
+            <button type="submit">Analyze</button>
+        </form>
+    </div>
+
+    <!-- RESULT -->
+    <div id="resultBox" class="card hidden">
+        <h2>Result</h2>
+        <p id="risk"></p>
+        <p id="advice"></p>
+    </div>
+
+    <!-- CHART -->
+    <div class="card">
+        <h2>Patient Risk Distribution</h2>
+        <canvas id="chart"></canvas>
+    </div>
+
+</div>
 
 <script>
-fetch("/history")
-.then(res => res.json())
-.then(data => {
-    let counts = {LOW:0, MEDIUM:0, HIGH:0};
+let chart;
+
+// Load chart data
+async function loadChart() {
+    const res = await fetch("/history");
+    const data = await res.json();
+
+    let counts = {HIGH:0, MEDIUM:0, LOW:0};
 
     data.forEach(d => counts[d.risk]++);
 
-    new Chart(document.getElementById("chart"), {
-        type: "bar",
+    const ctx = document.getElementById("chart");
+
+    if (chart) chart.destroy();
+
+    // ✅ YOUR PIE CHART CODE ADDED HERE
+    chart = new Chart(ctx, {
+        type: 'pie',
         data: {
-            labels: ["LOW","MEDIUM","HIGH"],
+            labels: ["High", "Medium", "Low"],
             datasets: [{
-                label: "Cases",
-                data: [counts.LOW, counts.MEDIUM, counts.HIGH]
+                data: [counts.HIGH, counts.MEDIUM, counts.LOW],
+                backgroundColor: ["red", "orange", "green"]
             }]
         }
     });
-});
+}
+
+// Form submit
+document.getElementById("form").onsubmit = async function(e) {
+    e.preventDefault();
+
+    const age = document.getElementById("age").value;
+    const symptoms = document.getElementById("symptoms").value;
+
+    const res = await fetch("/predict", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({age, symptoms})
+    });
+
+    const data = await res.json();
+
+    document.getElementById("risk").innerText = "Risk: " + data.risk_level;
+    document.getElementById("advice").innerText = data.advice;
+
+    document.getElementById("resultBox").classList.remove("hidden");
+
+    loadChart();
+};
+
+// Load chart on page load
+loadChart();
 </script>
 
 </body>
