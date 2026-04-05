@@ -24,13 +24,20 @@ def dashboard():
 # =========================
 # LOGIN API (ONLY ONE!)
 # =========================
+from fastapi import Request
+
 @app.post("/login")
-def login(data: dict = Body(...)):
+async def login(request: Request):
+    data = await request.json()
+
     username = data.get("username")
     password = data.get("password")
 
+    print("DEBUG LOGIN:", username, password)  # 👈 VERY IMPORTANT
+
     if username == "admin" and password == "1234":
         return {"status": "success"}
+
     return {"status": "fail"}
 
 # =========================
