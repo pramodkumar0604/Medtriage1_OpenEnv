@@ -1,0 +1,12 @@
+[project]
+name = "medtriage"
+version = "0.1.0"
+description = "Medical triage app"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "jinja2"
+]
+
+[tool.openenv]
+entrypoint = "inference:app"
