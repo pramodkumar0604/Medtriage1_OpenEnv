@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Body
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 
@@ -8,27 +8,24 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # =========================
-# ROUTES (PAGES)
+# HOME (LOGIN PAGE)
 # =========================
-from fastapi import Body
-@app.post("/login")
-def login(data: dict = Body(...)):
-    username = data.get("username")
-    password = data.get("password")
+@app.get("/")
+def login_page():
+    return FileResponse("templates/login.html")
 
-    if username == "admin" and password == "1234":
-        return {"status": "success"}
-    return {"status": "fail"}
-
+# =========================
+# DASHBOARD PAGE
+# =========================
 @app.get("/dashboard")
 def dashboard():
     return FileResponse("templates/dashboard.html")
 
 # =========================
-# LOGIN API (YOUR CODE ADDED HERE)
+# LOGIN API (ONLY ONE!)
 # =========================
 @app.post("/login")
-def login(data: dict):
+def login(data: dict = Body(...)):
     username = data.get("username")
     password = data.get("password")
 
