@@ -11,6 +11,9 @@
 
     <h1>🩺 MedTriage Dashboard</h1>
 
+    <!-- 🌙 DARK MODE BUTTON (ADDED HERE) -->
+    <button onclick="toggleDark()">🌙 Toggle Dark</button>
+
     <!-- FORM -->
     <div class="card">
         <h2>Patient Input</h2>
@@ -39,7 +42,12 @@
 <script>
 let chart;
 
-// Load chart data
+// 🌙 DARK MODE FUNCTION
+function toggleDark() {
+    document.body.classList.toggle("dark");
+}
+
+// Load chart
 async function loadChart() {
     const res = await fetch("/history");
     const data = await res.json();
@@ -52,7 +60,6 @@ async function loadChart() {
 
     if (chart) chart.destroy();
 
-    // ✅ YOUR PIE CHART CODE ADDED HERE
     chart = new Chart(ctx, {
         type: 'pie',
         data: {
@@ -88,7 +95,7 @@ document.getElementById("form").onsubmit = async function(e) {
     loadChart();
 };
 
-// Load chart on page load
+// Load chart initially
 loadChart();
 </script>
 
