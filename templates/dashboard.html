@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<h1>📊 Patient Dashboard</h1>
+
+<canvas id="chart"></canvas>
+
+<script>
+fetch("/history")
+.then(res => res.json())
+.then(data => {
+    let counts = {LOW:0, MEDIUM:0, HIGH:0};
+
+    data.forEach(d => counts[d.risk]++);
+
+    new Chart(document.getElementById("chart"), {
+        type: "bar",
+        data: {
+            labels: ["LOW","MEDIUM","HIGH"],
+            datasets: [{
+                label: "Cases",
+                data: [counts.LOW, counts.MEDIUM, counts.HIGH]
+            }]
+        }
+    });
+});
+</script>
+
+</body>
+</html>
