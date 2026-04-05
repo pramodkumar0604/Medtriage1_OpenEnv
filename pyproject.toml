@@ -1,6 +1,13 @@
+[project]
+name = "medtriage"
+version = "0.1.0"
 dependencies = [
     "fastapi",
     "uvicorn",
     "jinja2",
-    "scikit-learn"
+    "scikit-learn",
+    "openenv>=0.2.0"
 ]
+
+[project.scripts]
+start = "uvicorn inference:app --host 0.0.0.0 --port 7860"
