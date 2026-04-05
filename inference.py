@@ -68,3 +68,6 @@ def predict(data: dict):
         "risk_level": risk,
         "advice": advice
     }
+    @app.post("/reset")
+    def reset():
+        return{"status":"ok"}
