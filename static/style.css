@@ -44,3 +44,11 @@ button:hover {
 .hidden {
     display: none;
 }
+body.dark {
+    background: #121212;
+    color: white;
+}
+
+.card.dark {
+    background: #1e1e1e;
+}
