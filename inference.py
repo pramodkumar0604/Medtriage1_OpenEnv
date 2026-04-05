@@ -34,7 +34,9 @@ def history():
 def predict(data: dict):
     symptoms = data.get("symptoms", "").lower()
     age = int(data.get("age", 0))
-
+ @app.post("/reset")
+    def reset():
+        return{"status":"ok"}
     # 🧠 ML-like scoring (rule-based but smarter)
     score = 0
 
@@ -68,6 +70,4 @@ def predict(data: dict):
         "risk_level": risk,
         "advice": advice
     }
-    @app.post("/reset")
-    def reset():
-        return{"status":"ok"}
+   
