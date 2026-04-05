@@ -30,21 +30,30 @@ def home():
 def history():
     return load_data()
 
+# ✅ RESET endpoint (must be OUTSIDE predict)
+@app.post("/reset")
+def reset():
+    return {"status": "ok"}
+
+# ✅ FIXED predict function
 @app.post("/predict")
 def predict(data: dict):
     symptoms = data.get("symptoms", "").lower()
     age = int(data.get("age", 0))
- @app.post("/reset")
-    def reset():
-        return{"status":"ok"}
-    # 🧠 ML-like scoring (rule-based but smarter)
+
+    # ML-like scoring
     score = 0
 
-    if "fever" in symptoms: score += 2
-    if "cough" in symptoms: score += 2
-    if "chest pain" in symptoms: score += 3
-    if "fatigue" in symptoms: score += 1
-    if age > 60: score += 2
+    if "fever" in symptoms:
+        score += 2
+    if "cough" in symptoms:
+        score += 2
+    if "chest pain" in symptoms:
+        score += 3
+    if "fatigue" in symptoms:
+        score += 1
+    if age > 60:
+        score += 2
 
     if score >= 5:
         risk = "HIGH"
@@ -70,4 +79,3 @@ def predict(data: dict):
         "risk_level": risk,
         "advice": advice
     }
-   
