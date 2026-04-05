@@ -10,9 +10,15 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # =========================
 # ROUTES (PAGES)
 # =========================
-@app.get("/")
-def login_page():
-    return FileResponse("templates/login.html")
+from fastapi import Body
+@app.post("/login")
+def login(data: dict = Body(...)):
+    username = data.get("username")
+    password = data.get("password")
+
+    if username == "admin" and password == "1234":
+        return {"status": "success"}
+    return {"status": "fail"}
 
 @app.get("/dashboard")
 def dashboard():
