@@ -1,5 +1,34 @@
-<form action="/login" method="post">
-    <input name="username" placeholder="Username">
-    <input name="password" type="password" placeholder="Password">
-    <button>Login</button>
-</form>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+
+<h2>Login</h2>
+
+<input id="username" placeholder="Username">
+<input id="password" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+
+<script>
+async function login() {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const res = await fetch(window.location.origin + "/login", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({ username, password })
+    });
+    const data = await res.json();
+    console.log(data);
+    if (data.status === "success") {
+        window.location.href = "/dashboard";
+    } else {
+        alert("Invalid login");
+    }
+}
+</script>
+
+</body>
+</html>
