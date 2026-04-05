@@ -11,7 +11,7 @@
 
     <h1>🩺 MedTriage Dashboard</h1>
 
-    <!-- 🌙 DARK MODE BUTTON (ADDED HERE) -->
+    <!-- 🌙 BUTTON -->
     <button onclick="toggleDark()">🌙 Toggle Dark</button>
 
     <!-- FORM -->
@@ -42,12 +42,12 @@
 <script>
 let chart;
 
-// 🌙 DARK MODE FUNCTION
+/* ✅ ADD YOUR FUNCTION HERE */
 function toggleDark() {
     document.body.classList.toggle("dark");
 }
 
-// Load chart
+/* Chart loading */
 async function loadChart() {
     const res = await fetch("/history");
     const data = await res.json();
@@ -72,7 +72,7 @@ async function loadChart() {
     });
 }
 
-// Form submit
+/* Form submit */
 document.getElementById("form").onsubmit = async function(e) {
     e.preventDefault();
 
@@ -95,7 +95,7 @@ document.getElementById("form").onsubmit = async function(e) {
     loadChart();
 };
 
-// Load chart initially
+/* Load chart initially */
 loadChart();
 </script>
 
