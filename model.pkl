@@ -1,19 +1,16 @@
-# train_model.py
 from sklearn.ensemble import RandomForestClassifier
 import pickle
 
-# Dummy dataset
+# Dummy training data
 X = [
-    [1,1,0,0,30],   # fever,cough,chest,fatigue,age
-    [1,1,1,1,70],
-    [0,0,0,1,25],
-    [1,0,1,1,65]
+    [1,1,0,0,0],  # fever + cough
+    [0,0,1,0,0],  # chest pain
+    [0,0,0,1,0],  # fatigue
+    [0,0,0,0,1],  # old age
 ]
-
-y = [1,2,0,2]  # LOW=0, MED=1, HIGH=2
+y = ["HIGH","HIGH","MEDIUM","LOW"]
 
 model = RandomForestClassifier()
 model.fit(X, y)
 
-with open("model.pkl", "wb") as f:
-    pickle.dump(model, f)
+pickle.dump(model, open("model.pkl","wb"))
